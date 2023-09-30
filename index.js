@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGODB_URI,{
     console.log("Connection to db failed. Error: ", err)
 });
 
-const whitelist = ['https://main--lively-daffodil-df0457.netlify.app/', 'http://localhost:3000'];
+const whitelist = ['https://main--lively-daffodil-df0457.netlify.app', 'http://localhost:3000'];
 
 const corsOptions = {
     origin: function (origin, callback) {

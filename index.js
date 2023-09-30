@@ -7,8 +7,20 @@ import { Order } from "./models/orders.js";
 import dotenv from 'dotenv';
 import path from 'path';
 
-
+const whitelist = ['https://main--lively-daffodil-df0457.netlify.app', 'http://localhost:3000'];
 dotenv.config();
+const corsOptions = {
+  origin: function (origin, callback) {
+      if (whitelist.indexOf(origin) !== -1 || !origin) {  
+          callback(null, true);
+      } else {
+          callback(new Error('Not allowed by CORS'));
+      }
+  }
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
 
 const app = express();
 mongoose.connect(process.env.MONGODB_URI,{
@@ -20,20 +32,6 @@ mongoose.connect(process.env.MONGODB_URI,{
     console.log("Connection to db failed. Error: ", err)
 });
 
-const whitelist = ['https://main--lively-daffodil-df0457.netlify.app', 'http://localhost:3000'];
-
-const corsOptions = {
-    origin: function (origin, callback) {
-        if (whitelist.indexOf(origin) !== -1 || !origin) {  
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    }
-};
-
-app.use(cors(corsOptions));
-app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send('Hello, Express!')

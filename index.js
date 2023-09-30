@@ -8,30 +8,32 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 const whitelist = ['https://main--lively-daffodil-df0457.netlify.app', 'http://localhost:3000'];
-dotenv.config();
+
 const corsOptions = {
-  origin: function (origin, callback) {
-      if (whitelist.indexOf(origin) !== -1 || !origin) {  
-          callback(null, true);
-      } else {
-          callback(new Error('Not allowed by CORS'));
-      }
-  }
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1 || !origin) {  
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
 };
+dotenv.config();
+
+const app = express();
+
 
 app.use(cors(corsOptions));
 app.use(express.json());
 
-const app = express();
 mongoose.connect(process.env.MONGODB_URI,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 }).then(() => {
-    console.log("Connected to db successfully")
+  console.log("Connected to db successfully")
 }).catch((err) => {
-    console.log("Connection to db failed. Error: ", err)
+  console.log("Connection to db failed. Error: ", err)
 });
-
 
 app.get('/', (req, res) => {
     res.send('Hello, Express!')

@@ -55,6 +55,7 @@ app.get('/amd-gpu', (req, res) => {
             res.json(amd_graphic_cards);
         })
         .catch(err => {
+            console.log(err);
             res.status(500).json({ error: "An error occurred" });
         });
 });
@@ -288,6 +289,7 @@ if (process.env.NODE_ENV === 'production') {
       res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
+
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
     console.log("Server running on port: ", PORT)
